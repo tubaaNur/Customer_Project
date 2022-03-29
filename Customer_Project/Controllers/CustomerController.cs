@@ -30,7 +30,7 @@ namespace Customer_Project.Controllers
             _db.CustomersEntities.Add(customer);
             _db.SaveChanges();
             return Ok(customer);
-        }
+        } 
 
         //[HttpPut]
         //public IActionResult Update(int id, CustomerEntities customer1)
