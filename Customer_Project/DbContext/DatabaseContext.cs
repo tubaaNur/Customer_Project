@@ -6,7 +6,7 @@ namespace Customer_Project.Properties.Models
 
     public class DataBaseContext : DbContext
     {
-
+       
         //public DataBaseContext(DbContextOptions<DataBaseContext> options) : base(options) { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -19,10 +19,8 @@ namespace Customer_Project.Properties.Models
             optionsBuilder.UseNpgsql(connectionString);
         }
 
-        public DbSet<CustomerEntities> CustomersEntities { get; set; }
-       
-
-
+        public DbSet<CustomerEntities> customer { get; set; }
+     
 
     }
 }
