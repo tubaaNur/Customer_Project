@@ -1,6 +1,4 @@
 ﻿
-
-
 namespace Customer_Project.DbModel
 {
     public class CustomerEntities
@@ -17,5 +15,6 @@ namespace Customer_Project.DbModel
         public int Created_by_user_id { get; set; }
         public DateTime Update_date { get; set; }
         public int Update_by_user_id { get; set; }
+      
     }
 }

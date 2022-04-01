@@ -3,9 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Customer_Project.DbModel;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-
-
 namespace Customer_Project.Controllers
+
 {
     //[Route("api/[controller]")]
     public class CustomerController : ControllerBase
@@ -14,6 +13,7 @@ namespace Customer_Project.Controllers
         private readonly DataBaseContext _db;
         private CustomerEntities customerToDelete;
         
+
 
         //public CustomerController(DataBaseContext db)
         //{
@@ -31,17 +31,15 @@ namespace Customer_Project.Controllers
             return Ok(Customer1);
         }
 
-        //[HttpGet("{GetById}")]
-        
-        //public int Details(int id)
-        //{
-        //    var context = new DataBaseContext();
-        //    context.customer.FirstOrDefault(t => t.Id == id);
-        //    context.Entry(id).State = EntityState.Modified;
-        //    context.SaveChanges();
-            
-
-        //}
+        [HttpGet]
+        [Route("GetById")]
+        public IActionResult GetById(int id)
+        {
+            var context = new DataBaseContext();              
+            var customer = context.customer.FirstOrDefault(x => x.Id == id);
+            return Ok(customer);
+             
+        }
 
         [HttpPost]
         [Route("Create")]
