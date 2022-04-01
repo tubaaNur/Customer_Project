@@ -1,21 +1,22 @@
-﻿using Customer_Project.Properties.Models;
+﻿using Customer_Project.DbModel;
+using Customer_Project.Properties.Models;
 using Microsoft.AspNetCore.Mvc;
-using Customer_Project.DbModel;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
+
 
 namespace Customer_Project.Controllers
 
 {
-   [Route("api/[controller]")]
+
+    [Route("api/[controller]")]
+
+
     public class CustomerController : ControllerBase
     {
 
         private readonly DataBaseContext _db;
         private CustomerEntities customerToDelete;
-        
-
-
+      
         //public CustomerController(DataBaseContext db)
         //{
         //    _db = db;
@@ -36,13 +37,13 @@ namespace Customer_Project.Controllers
         [Route("GetById")]
         public IActionResult GetById(int id)
         {
-           
+
             var context = new DataBaseContext();
-   
+
             var customer = context.customer.Where(a => a.Id == id).ToList();
             var customer1 = context.customer.FirstOrDefault(x => x.Id == id);
             return Ok(customer);
-             
+
         }
 
         [HttpPost]
@@ -53,14 +54,14 @@ namespace Customer_Project.Controllers
             context.customer.Add(customer);
             context.SaveChanges();
             return Ok(customer);
-        } 
+        }
 
         [HttpPut]
         [Route("Update")]
 
-        public IActionResult Update( CustomerEntities customer1)
+        public IActionResult Update(CustomerEntities customer1)
         {
-            
+
             var context = new DataBaseContext();
             context.Entry(customer1).State = EntityState.Modified;
             context.SaveChanges();
