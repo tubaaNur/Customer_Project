@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Customer_Project.DbModel;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+
 namespace Customer_Project.Controllers
 
 {
-    //[Route("api/[controller]")]
+   [Route("api/[controller]")]
     public class CustomerController : ControllerBase
     {
 
@@ -35,15 +36,18 @@ namespace Customer_Project.Controllers
         [Route("GetById")]
         public IActionResult GetById(int id)
         {
-            var context = new DataBaseContext();              
-            var customer = context.customer.FirstOrDefault(x => x.Id == id);
+           
+            var context = new DataBaseContext();
+   
+            var customer = context.customer.Where(a => a.Id == id).ToList();
+            var customer1 = context.customer.FirstOrDefault(x => x.Id == id);
             return Ok(customer);
              
         }
 
         [HttpPost]
         [Route("Create")]
-        public IActionResult Create([FromBody] CustomerEntities customer)
+        public IActionResult Create(CustomerEntities customer)
         {
             var context = new DataBaseContext();
             context.customer.Add(customer);
@@ -60,7 +64,7 @@ namespace Customer_Project.Controllers
             var context = new DataBaseContext();
             context.Entry(customer1).State = EntityState.Modified;
             context.SaveChanges();
-            return Ok();
+            return Ok("Değiştirildi");
         }
 
         [HttpDelete]
@@ -73,7 +77,7 @@ namespace Customer_Project.Controllers
             var customerToDelete = context.customer.Find(id);
             if (customerToDelete == null)
             {
-                return NotFound();
+                return NotFound("Bulunamadı");
             }
             context.customer.Remove(customerToDelete);
             context.SaveChanges();
