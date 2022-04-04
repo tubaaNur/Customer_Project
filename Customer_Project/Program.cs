@@ -16,7 +16,7 @@ builder.Services.AddSwaggerGen();
 
 
 var connectionString = builder.Configuration.GetConnectionString("PostgreSqlConnectionString");
-builder.Services.AddDbContext<DbContext>(options => options.UseNpgsql(connectionString)); 
+builder.Services.AddDbContext<DataBaseContext>(options=> options.UseNpgsql(connectionString));
 
 
 var app = builder.Build();
@@ -27,6 +27,7 @@ var app = builder.Build();
 
 
 // Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

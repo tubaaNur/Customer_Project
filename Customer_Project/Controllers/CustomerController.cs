@@ -16,20 +16,18 @@ namespace Customer_Project.Controllers
 
         private readonly DataBaseContext _db;
         private CustomerEntities customerToDelete;
-      
-        //public CustomerController(DataBaseContext db)
-        //{
-        //    _db = db;
-        //}
+       
+        public CustomerController(DataBaseContext db)
+        {
 
-
+            _db = db;
+        }
 
         [HttpGet]
         [Route("GetAll")]
         public IActionResult GetAll()
         {
-            var context = new DataBaseContext();
-            var Customer1 = context.customer.ToList();
+            var Customer1 = _db.customer.ToList();
             return Ok(Customer1);
         }
 
@@ -37,51 +35,42 @@ namespace Customer_Project.Controllers
         [Route("GetById")]
         public IActionResult GetById(int id)
         {
-
-            var context = new DataBaseContext();
-
-            var customer = context.customer.Where(a => a.Id == id).ToList();
-            var customer1 = context.customer.FirstOrDefault(x => x.Id == id);
+            var customer = _db.customer.Where(a => a.Id == id).ToList();
+            var customer1 = _db.customer.FirstOrDefault(x => x.Id == id);
             return Ok(customer);
 
         }
 
         [HttpPost]
         [Route("Create")]
-        public IActionResult Create(CustomerEntities customer)
+        public  IActionResult Create([FromBody] CustomerEntities customer)
         {
-            var context = new DataBaseContext();
-            context.customer.Add(customer);
-            context.SaveChanges();
+           
+            _db.customer.Add(customer);
+            _db.SaveChanges();
             return Ok(customer);
         }
 
         [HttpPut]
         [Route("Update")]
-
-        public IActionResult Update(CustomerEntities customer1)
+        public IActionResult Update([FromBody] CustomerEntities customer1)
         {
-
-            var context = new DataBaseContext();
-            context.Entry(customer1).State = EntityState.Modified;
-            context.SaveChanges();
-            return Ok("Değiştirildi");
+            _db.customer.Update(customer1);
+            _db.SaveChanges();
+            return Ok();
         }
 
         [HttpDelete]
         [Route("Delete")]
-
         public IActionResult Delete(int id)
         {
-            var context = new DataBaseContext();
-
-            var customerToDelete = context.customer.Find(id);
+            var customerToDelete = _db.customer.Find(id);
             if (customerToDelete == null)
             {
                 return NotFound("Bulunamadı");
             }
-            context.customer.Remove(customerToDelete);
-            context.SaveChanges();
+            _db.customer.Remove(customerToDelete);
+            _db.SaveChanges();
             return NoContent();
         }
     }
