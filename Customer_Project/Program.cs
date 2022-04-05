@@ -5,6 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+ConfigurationManager configuration = builder.Configuration;
+
+var name = builder.Configuration.GetValue<string>("Name");
+var nameSection = configuration.GetSection("Name");
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -14,13 +19,14 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
 
-
 var connectionString = builder.Configuration.GetConnectionString("PostgreSqlConnectionString");
 builder.Services.AddDbContext<DataBaseContext>(options=> options.UseNpgsql(connectionString));
 
 
 var app = builder.Build();
- 
+
+
+
 
 
 
@@ -39,9 +45,5 @@ app.UseAuthorization();
 app.UseRouting();
 
 app.MapControllers();
-
-
-
-
 
 app.Run();

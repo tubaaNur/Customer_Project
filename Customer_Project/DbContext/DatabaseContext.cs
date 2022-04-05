@@ -19,17 +19,10 @@ namespace Customer_Project.Properties.Models
 
             var connectionString = configuration.GetConnectionString("PostgreSqlConnectionString");
             optionsBuilder.UseNpgsql(connectionString);
-
-            //var connectionString2 = configuration.GetConnectionString("Name");
-            //optionsBuilder.UseNpgsql(connectionString);
-
-
         }
 
         public DbSet<CustomerEntities> customer { get; set; }
-       
-    
-
+        
     }
 }
              
