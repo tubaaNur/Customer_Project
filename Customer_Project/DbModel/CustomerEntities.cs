@@ -15,8 +15,8 @@ namespace Customer_Project.DbModel
         public int Update_by_user_id { get; set; }
         public DateTime Created_date { get; set; }
         public DateTime Update_date { get; set; }
-       
+
 
     }
-   
+
 }
