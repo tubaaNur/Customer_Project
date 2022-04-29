@@ -11,37 +11,43 @@ namespace Customer_Project.Controllers
     {
         private readonly DataBaseContext _db;
 
-        //private readonly IConfiguration _configuration;
         public CustomerController(DataBaseContext db)
         {
 
             _db = db;
         }
-        
-        //public CustomerController(IConfiguration configuration)
-        //{
-        //    _configuration = configuration;
-        //}
 
-      
+
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
-            var Customer1 = _db.customer.ToList();
-            return Ok(Customer1);
+            // var Customer1 = _db.customer.ToList(); /Tüm listeyi alma 
+            var customer = _db.customer.Where(x => x.Soft_delete == true)
+                                   .ToList();
+            return Ok(customer);
         }
 
         [HttpGet("GetById")]
         public IActionResult GetById(int id)
         {
-            var customer = _db.customer.Where(a => a.Id == id).ToList();
-            var customer1 = _db.customer.FirstOrDefault(x => x.Id == id);
+
+            var customer = _db.customer.FirstOrDefault(x => x.Id == id);
+
+            if (customer?.Soft_delete == true)
+            {
+                customer.ToString();
+            }
+            else
+            {
+                customer = null;
+            }
+
             return Ok(customer);
 
         }
 
         [HttpPost("Create")]
-        public IActionResult Create([FromBody]CustomerEntities customer)
+        public IActionResult Create([FromBody] CustomerEntities customer)
         {
 
             _db.customer.Add(customer);
@@ -50,7 +56,7 @@ namespace Customer_Project.Controllers
         }
 
         [HttpPut("Update")]
-        public IActionResult Update([FromBody]CustomerEntities customer1)
+        public IActionResult Update([FromBody] CustomerEntities customer1)
         {
             _db.customer.Update(customer1);
             _db.SaveChanges();
@@ -58,7 +64,8 @@ namespace Customer_Project.Controllers
         }
 
         [HttpDelete("Delete")]
-        public IActionResult Delete(int id)
+
+        public virtual IActionResult Delete(int id)
         {
             var customerToDelete = _db.customer.Find(id);
             if (customerToDelete == null)
@@ -69,6 +76,6 @@ namespace Customer_Project.Controllers
             _db.SaveChanges();
             return NoContent();
         }
+
     }
 }
-
