@@ -21,26 +21,17 @@ namespace Customer_Project.Controllers
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
-            // var Customer1 = _db.customer.ToList(); /Tüm listeyi alma 
-            var customer = _db.customer.Where(x => x.Soft_delete == true)
-                                   .ToList();
-            return Ok(customer);
+            var Customer1 = _db.customer.ToList(); 
+          
+                                   
+            return Ok(Customer1);
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("GetById")] // ıdye göre customer değeri döner. ıd yoksa hata döner
         public IActionResult GetById(int id)
         {
 
             var customer = _db.customer.FirstOrDefault(x => x.Id == id);
-
-            if (customer?.Soft_delete == true)
-            {
-                customer.ToString();
-            }
-            else
-            {
-                customer = null;
-            }
 
             return Ok(customer);
 
@@ -68,11 +59,12 @@ namespace Customer_Project.Controllers
         public virtual IActionResult Delete(int id)
         {
             var customerToDelete = _db.customer.Find(id);
-            if (customerToDelete == null)
+            if (customerToDelete == null) // getbyıd de olabilir
             {
                 return NotFound("Bulunamadı");
             }
-            _db.customer.Remove(customerToDelete);
+            customerToDelete.Is_active = false;
+            _db.customer.Update(customerToDelete);
             _db.SaveChanges();
             return NoContent();
         }
